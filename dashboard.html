@@ -1,138 +1,74 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>لوحة المستثمر - جنرال</title>
+<meta charset="UTF-8">
+<title>لوحة المستثمر</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      direction: rtl;
-      background: #f4f6f8;
-    }
-
-    header {
-      background: #0d47a1;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      background: #1565c0;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 20px;
-      text-align: center;
-    }
-
-    .card {
-      background: white;
-      display: inline-block;
-      width: 200px;
-      margin: 10px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
-    .box {
-      background: white;
-      margin: 20px auto;
-      width: 90%;
-      max-width: 500px;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-      text-align: right;
-    }
-
-    .tx {
-      border-bottom: 1px solid #eee;
-      padding: 8px;
-    }
-
-    .actions a {
-      display: inline-block;
-      margin: 10px;
-      padding: 10px 15px;
-      background: #1e88e5;
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-  </style>
+<style>
+body{margin:0;font-family:Arial;direction:rtl;background:#f4f6f8;}
+header{background:#0d47a1;color:white;padding:20px;text-align:center;}
+nav{background:#1565c0;padding:10px;text-align:center;}
+nav a{color:white;margin:10px;text-decoration:none;font-weight:bold;}
+.container{text-align:center;padding:20px;}
+.card{background:white;display:inline-block;width:200px;margin:10px;padding:15px;border-radius:10px;}
+.box{background:white;margin:20px auto;width:90%;max-width:500px;padding:15px;border-radius:10px;text-align:right;}
+.tx{border-bottom:1px solid #eee;padding:5px;}
+.actions a{display:inline-block;margin:10px;padding:10px 15px;background:#1e88e5;color:white;text-decoration:none;}
+</style>
 </head>
 
 <body>
 
 <script>
-  if (!localStorage.getItem("loggedIn")) {
-    window.location.href = "login.html";
-  }
+if(!localStorage.getItem("loggedIn")){
+  window.location.href="login.html";
+}
 
-  let balance = Number(localStorage.getItem("balance")) || 0;
-  let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+let balance = Number(localStorage.getItem("balance"))||0;
+let transactions = JSON.parse(localStorage.getItem("transactions"))||[];
 
-  function logout() {
-    localStorage.removeItem("loggedIn");
-    window.location.href = "login.html";
-  }
+function logout(){
+  localStorage.clear();
+  window.location.href="login.html";
+}
 
-  function renderTransactions() {
-    let box = document.getElementById("txBox");
-    box.innerHTML = "";
+function render(){
+  document.getElementById("bal").innerText = balance + " $";
+  let box=document.getElementById("tx");
+  box.innerHTML="";
+  transactions.slice().reverse().forEach(t=>{
+    box.innerHTML += `<div class="tx">${t}</div>`;
+  });
+}
 
-    transactions.slice().reverse().forEach(t => {
-      box.innerHTML += `
-        <div class="tx">${t}</div>
-      `;
-    });
-  }
-
-  window.onload = function() {
-    document.getElementById("balance").innerText = balance + " $";
-    renderTransactions();
-  }
+window.onload=render;
 </script>
 
 <header>
-  <h1>لوحة المستثمر</h1>
+<h1>لوحة المستثمر</h1>
 </header>
 
 <nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="projects.html">المشاريع</a>
-  <a href="#" onclick="logout()">تسجيل خروج</a>
+<a href="index.html">الرئيسية</a>
+<a href="projects.html">المشاريع</a>
+<a href="#" onclick="logout()">خروج</a>
 </nav>
 
 <div class="container">
 
-  <div class="card">
-    <h3>الرصيد</h3>
-    <p id="balance">0 $</p>
-  </div>
+<div class="card">
+<h3>الرصيد</h3>
+<p id="bal">0 $</p>
+</div>
 
-  <h3>سجل العمليات</h3>
+<h3>سجل العمليات</h3>
+<div class="box" id="tx"></div>
 
-  <div class="box" id="txBox"></div>
-
-  <div class="actions">
-    <a href="deposit.html">💰 إيداع</a>
-    <a href="withdraw.html">💸 سحب</a>
-    <a href="projects.html">📊 مشاريع</a>
-  </div>
+<div class="actions">
+<a href="deposit.html">إيداع</a>
+<a href="withdraw.html">سحب</a>
+<a href="projects.html">مشاريع</a>
+</div>
 
 </div>
 
