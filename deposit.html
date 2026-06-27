@@ -16,23 +16,21 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
 
 <div class="box">
 <h2>الإيداع</h2>
-
 <input id="amount" type="number">
-
 <button onclick="dep()">إيداع</button>
 </div>
 
 <script>
+let user = localStorage.getItem("currentUser");
+let users = JSON.parse(localStorage.getItem("users"));
+
 function dep(){
 let a=Number(document.getElementById("amount").value);
-let b=Number(localStorage.getItem("balance"))||0;
 
-b+=a;
-localStorage.setItem("balance",b);
+users[user].balance += a;
+users[user].transactions.push("إيداع + "+a);
 
-let t=JSON.parse(localStorage.getItem("transactions"))||[];
-t.push("إيداع + "+a);
-localStorage.setItem("transactions",JSON.stringify(t));
+localStorage.setItem("users",JSON.stringify(users));
 
 window.location.href="dashboard.html";
 }
