@@ -2,105 +2,55 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>تسجيل الدخول</title>
-
+<title>دخول</title>
 <style>
-body{
-  font-family:Arial;
-  direction:rtl;
-  background:#f2f2f2;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
-}
-.box{
-  background:white;
-  padding:25px;
-  width:300px;
-  text-align:center;
-  border-radius:10px;
-}
-input{
-  width:90%;
-  padding:10px;
-  margin:8px 0;
-}
-button{
-  width:100%;
-  padding:10px;
-  margin-top:5px;
-  background:#0d47a1;
-  color:white;
-  border:none;
-}
-small{cursor:pointer;color:blue;}
+body{font-family:Arial;direction:rtl;background:#f2f2f2;display:flex;justify-content:center;align-items:center;height:100vh}
+.box{background:#fff;padding:20px;width:300px;text-align:center}
+input{width:90%;padding:10px;margin:5px}
+button{width:100%;padding:10px;background:#0d47a1;color:#fff;border:none}
 </style>
 </head>
-
 <body>
 
 <div class="box">
-<h2>تسجيل / دخول</h2>
+<h3>تسجيل / دخول</h3>
+<input id="u" placeholder="اسم المستخدم">
+<input id="p" type="password" placeholder="كلمة المرور">
 
-<input id="user" placeholder="اسم المستخدم">
-<input id="pass" type="password" placeholder="كلمة المرور">
-
-<button onclick="register()">تسجيل حساب</button>
+<button onclick="register()">تسجيل</button>
 <button onclick="login()">دخول</button>
-
-<br><br>
-<small onclick="showUsers()">عرض الحسابات (للتجربة)</small>
 </div>
 
 <script>
+let users = JSON.parse(localStorage.getItem("users")||"{}");
 
-// تسجيل حساب جديد
 function register(){
-  let u=document.getElementById("user").value;
-  let p=document.getElementById("pass").value;
+let u=u=document.getElementById("u").value;
+let p=document.getElementById("p").value;
+if(!u||!p)return alert("املأ البيانات");
 
-  if(!u||!p){alert("املأ البيانات");return;}
-
-  let users=JSON.parse(localStorage.getItem("users")||"{}");
-
-  if(users[u]){
-    alert("الحساب موجود");
-    return;
-  }
-
-  users[u]={
-    pass:p,
-    balance:0,
-    transactions:[]
-  };
-
-  localStorage.setItem("users",JSON.stringify(users));
-
-  alert("تم إنشاء الحساب");
+if(!users[u]){
+users[u]={pass:p,balance:0,transactions:[]};
+localStorage.setItem("users",JSON.stringify(users));
+alert("تم التسجيل");
+}else alert("موجود");
 }
 
-// تسجيل دخول
 function login(){
-  let u=document.getElementById("user").value;
-  let p=document.getElementById("pass").value;
+let u=document.getElementById("u").value;
+let p=document.getElementById("p").value;
 
-  let users=JSON.parse(localStorage.getItem("users")||"{}");
-
-  if(!users[u] || users[u].pass!==p){
-    alert("خطأ في البيانات");
-    return;
-  }
-
-  localStorage.setItem("currentUser",u);
-  window.location.href="dashboard.html";
+if(u==="admin" && p==="admin"){
+localStorage.setItem("isAdmin","true");
+location="admin.html";
+return;
 }
 
-// عرض المستخدمين (للتجربة فقط)
-function showUsers(){
-  alert(localStorage.getItem("users"));
+if(users[u] && users[u].pass===p){
+localStorage.setItem("currentUser",u);
+location="dashboard.html";
+}else alert("خطأ");
 }
-
 </script>
 
 </body>
