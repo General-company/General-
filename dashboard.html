@@ -20,24 +20,33 @@ nav a{color:white;margin:10px;text-decoration:none;font-weight:bold;}
 <body>
 
 <script>
-if(!localStorage.getItem("loggedIn")){
-  window.location.href="login.html";
+let user = localStorage.getItem("currentUser");
+if(!user){window.location.href="login.html";}
+
+let users = JSON.parse(localStorage.getItem("users"));
+
+function getUser(){
+  return users[user];
 }
 
-let balance = Number(localStorage.getItem("balance"))||0;
-let transactions = JSON.parse(localStorage.getItem("transactions"))||[];
+function save(){
+  localStorage.setItem("users",JSON.stringify(users));
+}
 
 function logout(){
-  localStorage.clear();
+  localStorage.removeItem("currentUser");
   window.location.href="login.html";
 }
 
 function render(){
-  document.getElementById("bal").innerText = balance + " $";
+  document.getElementById("bal").innerText = getUser().balance + " $";
+
   let box=document.getElementById("tx");
   box.innerHTML="";
-  transactions.slice().reverse().forEach(t=>{
-    box.innerHTML += `<div class="tx">${t}</div>`;
+
+  let t=getUser().transactions;
+  t.slice().reverse().forEach(x=>{
+    box.innerHTML += `<div class="tx">${x}</div>`;
   });
 }
 
