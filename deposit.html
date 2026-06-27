@@ -41,17 +41,31 @@
 <body>
 
 <div class="box">
-  <h2>صفحة الإيداع</h2>
+  <h2>الإيداع</h2>
 
-  <input type="number" placeholder="أدخل المبلغ">
+  <input id="amount" type="number" placeholder="أدخل المبلغ">
 
-  <button onclick="alert('تم إرسال طلب الإيداع وسيتم مراجعته')">
-    إرسال طلب الإيداع
-  </button>
+  <button onclick="deposit()">إرسال</button>
 
   <br><br>
-  <a href="dashboard.html">العودة للوحة المستثمر</a>
+  <a href="dashboard.html">رجوع</a>
 </div>
+
+<script>
+function deposit() {
+  let amount = Number(document.getElementById("amount").value);
+
+  let balance = Number(localStorage.getItem("balance"));
+
+  balance += amount;
+
+  localStorage.setItem("balance", balance);
+
+  alert("تم إضافة المبلغ إلى الرصيد");
+
+  window.location.href = "dashboard.html";
+}
+</script>
 
 </body>
 </html>
