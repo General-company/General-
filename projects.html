@@ -1,124 +1,48 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>المشاريع الاستثمارية - جنرال</title>
+<meta charset="UTF-8">
+<title>المشاريع</title>
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      direction: rtl;
-      background: #f4f6f8;
-    }
-
-    header {
-      background: #0d47a1;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    nav {
-      background: #1565c0;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 30px;
-      text-align: center;
-    }
-
-    .project {
-      background: white;
-      width: 300px;
-      display: inline-block;
-      margin: 15px;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
-    input {
-      width: 90%;
-      padding: 8px;
-      margin-top: 10px;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      background: #0d47a1;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+<style>
+body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
+.project{background:white;width:300px;display:inline-block;margin:10px;padding:20px;border-radius:10px;}
+input{width:90%;padding:8px;}
+button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;margin-top:10px;}
+</style>
 </head>
 
 <body>
 
-<header>
-  <h1>المشاريع الاستثمارية</h1>
-</header>
+<h2>المشاريع</h2>
 
-<nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="dashboard.html">لوحة المستثمر</a>
-</nav>
+<div class="project">
+<h3>مشروع دبي</h3>
+<input id="p1">
+<button onclick="inv('p1')">استثمار</button>
+</div>
 
-<div class="container">
-
-  <div class="project">
-    <h3>مشروع دبي</h3>
-    <p>استثمار عقاري</p>
-
-    <input id="p1" type="number" placeholder="مبلغ الاستثمار">
-
-    <button onclick="invest('p1')">استثمار</button>
-  </div>
-
-  <div class="project">
-    <h3>مشروع لندن</h3>
-    <p>مجمع سكني</p>
-
-    <input id="p2" type="number" placeholder="مبلغ الاستثمار">
-
-    <button onclick="invest('p2')">استثمار</button>
-  </div>
-
+<div class="project">
+<h3>مشروع لندن</h3>
+<input id="p2">
+<button onclick="inv('p2')">استثمار</button>
 </div>
 
 <script>
-function invest(id) {
-  let amount = Number(document.getElementById(id).value);
-  let balance = Number(localStorage.getItem("balance"));
+function inv(id){
+let a=Number(document.getElementById(id).value);
+let b=Number(localStorage.getItem("balance"))||0;
 
-  if(amount <= 0) {
-    alert("أدخل مبلغ صحيح");
-    return;
-  }
+if(a>b){alert("لا يوجد رصيد");return;}
 
-  if(amount > balance) {
-    alert("الرصيد غير كافي");
-    return;
-  }
+b-=a;
+localStorage.setItem("balance",b);
 
-  balance -= amount;
-  localStorage.setItem("balance", balance);
+let t=JSON.parse(localStorage.getItem("transactions"))||[];
+t.push("استثمار - "+a);
+localStorage.setItem("transactions",JSON.stringify(t));
 
-  alert("تم الاستثمار بنجاح");
-
-  window.location.href = "dashboard.html";
+window.location.href="dashboard.html";
 }
 </script>
 
