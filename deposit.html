@@ -6,9 +6,16 @@
 
 <style>
 body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
-.box{background:white;width:300px;margin:80px auto;padding:20px;border-radius:10px;}
-input{width:90%;padding:10px;margin:10px 0;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
+.box{background:white;width:340px;margin:60px auto;padding:20px;border-radius:10px;}
+input,select{width:90%;padding:10px;margin:10px 0;}
+button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor:pointer;}
+.wallet{
+  background:#f1f1f1;
+  padding:10px;
+  margin:10px 0;
+  font-size:13px;
+  word-break:break-all;
+}
 </style>
 </head>
 
@@ -16,23 +23,64 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
 
 <div class="box">
 <h2>الإيداع</h2>
-<input id="amount" type="number">
-<button onclick="dep()">إيداع</button>
+
+<p>اختر الشبكة:</p>
+
+<select id="network" onchange="showWallet()">
+  <option value="">اختر</option>
+  <option value="trx">TRC20 - TRON (USDT)</option>
+  <option value="bsc">BEP20 - BSC (USDT)</option>
+</select>
+
+<div id="walletBox" class="wallet">
+اختر شبكة لعرض المحفظة
+</div>
+
+<input id="amount" type="number" placeholder="المبلغ">
+
+<button onclick="deposit()">تأكيد الإيداع</button>
+
+<br><br>
+<a href="dashboard.html">رجوع</a>
 </div>
 
 <script>
 let user = localStorage.getItem("currentUser");
 let users = JSON.parse(localStorage.getItem("users"));
 
-function dep(){
-let a=Number(document.getElementById("amount").value);
+// محافظك
+const wallets = {
+  trx: "TXsH5pzQFbP3RkW68jUuFahqa846z58x8o",
+  bsc: "0x0c6106c0fdec995a16c50f61ee2ca92550001b57"
+};
 
-users[user].balance += a;
-users[user].transactions.push("إيداع + "+a);
+function showWallet(){
+  let net = document.getElementById("network").value;
+  document.getElementById("walletBox").innerText = wallets[net] || "اختر شبكة";
+}
 
-localStorage.setItem("users",JSON.stringify(users));
+function deposit(){
+  let a = Number(document.getElementById("amount").value);
+  let net = document.getElementById("network").value;
 
-window.location.href="dashboard.html";
+  if(!net){
+    alert("اختر الشبكة");
+    return;
+  }
+
+  if(a <= 0){
+    alert("أدخل مبلغ صحيح");
+    return;
+  }
+
+  users[user].transactions.push(
+    "طلب إيداع " + a + " USDT (" + net + ")"
+  );
+
+  localStorage.setItem("users",JSON.stringify(users));
+
+  alert("تم تسجيل طلب الإيداع");
+  window.location.href="dashboard.html";
 }
 </script>
 
