@@ -16,25 +16,26 @@ button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
 
 <div class="box">
 <h2>السحب</h2>
-
 <input id="amount" type="number">
-
 <button onclick="wd()">سحب</button>
 </div>
 
 <script>
+let user = localStorage.getItem("currentUser");
+let users = JSON.parse(localStorage.getItem("users"));
+
 function wd(){
 let a=Number(document.getElementById("amount").value);
-let b=Number(localStorage.getItem("balance"))||0;
 
-if(a>b){alert("رصيد غير كافي");return;}
+if(a > users[user].balance){
+  alert("رصيد غير كافي");
+  return;
+}
 
-b-=a;
-localStorage.setItem("balance",b);
+users[user].balance -= a;
+users[user].transactions.push("سحب - "+a);
 
-let t=JSON.parse(localStorage.getItem("transactions"))||[];
-t.push("سحب - "+a);
-localStorage.setItem("transactions",JSON.stringify(t));
+localStorage.setItem("users",JSON.stringify(users));
 
 window.location.href="dashboard.html";
 }
