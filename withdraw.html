@@ -2,42 +2,35 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>السحب</title>
-
+<title>سحب</title>
 <style>
-body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
-.box{background:white;width:300px;margin:80px auto;padding:20px;border-radius:10px;}
-input{width:90%;padding:10px;margin:10px 0;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
+body{text-align:center;font-family:Arial;background:#f4f6f8}
+.box{background:#fff;width:300px;margin:60px auto;padding:20px}
+input{width:90%;padding:10px}
+button{width:100%;padding:10px;background:#0d47a1;color:#fff}
 </style>
 </head>
-
 <body>
 
 <div class="box">
-<h2>السحب</h2>
-<input id="amount" type="number">
+<h3>سحب</h3>
+<input id="a" type="number">
 <button onclick="wd()">سحب</button>
 </div>
 
 <script>
-let user = localStorage.getItem("currentUser");
-let users = JSON.parse(localStorage.getItem("users"));
+let user=localStorage.getItem("currentUser");
+let users=JSON.parse(localStorage.getItem("users"));
 
 function wd(){
-let a=Number(document.getElementById("amount").value);
+let a=Number(document.getElementById("a").value);
+if(a>users[user].balance)return alert("رصيد غير كافي");
 
-if(a > users[user].balance){
-  alert("رصيد غير كافي");
-  return;
-}
-
-users[user].balance -= a;
-users[user].transactions.push("سحب - "+a);
+users[user].balance-=a;
+users[user].transactions.push("سحب "+a);
 
 localStorage.setItem("users",JSON.stringify(users));
-
-window.location.href="dashboard.html";
+location="dashboard.html";
 }
 </script>
 
