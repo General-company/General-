@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>تسجيل الدخول - جنرال</title>
+
   <style>
     body {
       font-family: Arial;
@@ -56,13 +57,26 @@
 <div class="box">
   <h2>تسجيل الدخول</h2>
 
-  <input type="text" placeholder="اسم المستخدم">
-  <input type="password" placeholder="كلمة المرور">
+  <input id="user" type="text" placeholder="اسم المستخدم">
+  <input id="pass" type="password" placeholder="كلمة المرور">
 
-  <button>دخول</button>
+  <button onclick="login()">دخول</button>
 
   <a href="index.html">العودة للرئيسية</a>
 </div>
+
+<script>
+function login() {
+  let user = document.getElementById("user").value;
+  let pass = document.getElementById("pass").value;
+
+  if(user !== "" && pass !== "") {
+    window.location.href = "dashboard.html";
+  } else {
+    alert("رجاءً املأ البيانات");
+  }
+}
+</script>
 
 </body>
 </html>
