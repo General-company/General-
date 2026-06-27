@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>لوحة الإدارة</title>
+
+<style>
+body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
+.box{background:white;width:90%;max-width:600px;margin:20px auto;padding:15px;border-radius:10px;}
+.user{border-bottom:1px solid #eee;padding:10px;text-align:right;}
+button{padding:5px 10px;margin:5px;}
+</style>
+</head>
+
+<body>
+
+<script>
+if(localStorage.getItem("isAdmin")!=="true"){
+  window.location.href="login.html";
+}
+
+let users = JSON.parse(localStorage.getItem("users"));
+
+function render(){
+  let box=document.getElementById("box");
+  box.innerHTML="";
+
+  for(let u in users){
+    box.innerHTML += `
+      <div class="user">
+        <b>${u}</b><br>
+        رصيد: ${users[u].balance} $
+        <br>
+        <button onclick="add(${u})">+10</button>
+      </div>
+    `;
+  }
+}
+
+function add(u){
+  users[u].balance += 10;
+  localStorage.setItem("users",JSON.stringify(users));
+  render();
+}
+
+window.onload=render;
+</script>
+
+<h2>لوحة الإدارة</h2>
+
+<div class="box" id="box"></div>
+
+</body>
+</html>
