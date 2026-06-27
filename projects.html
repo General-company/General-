@@ -3,49 +3,42 @@
 <head>
 <meta charset="UTF-8">
 <title>المشاريع</title>
-
 <style>
-body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
-.project{background:white;width:300px;display:inline-block;margin:10px;padding:20px;border-radius:10px;}
-input{width:90%;padding:8px;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;margin-top:10px;}
+body{text-align:center;font-family:Arial;background:#f4f6f8}
+.box{background:#fff;width:300px;margin:20px auto;padding:20px}
+input{width:90%;padding:10px}
+button{width:100%;padding:10px;background:#0d47a1;color:#fff}
 </style>
 </head>
-
 <body>
 
-<h2>المشاريع</h2>
+<h3>المشاريع</h3>
 
-<div class="project">
-<h3>مشروع دبي</h3>
-<input id="p1">
-<button onclick="inv('p1')">استثمار</button>
+<div class="box">
+<h4>مشروع دبي</h4>
+<input id="a1">
+<button onclick="inv('a1')">استثمار</button>
 </div>
 
-<div class="project">
-<h3>مشروع لندن</h3>
-<input id="p2">
-<button onclick="inv('p2')">استثمار</button>
+<div class="box">
+<h4>مشروع لندن</h4>
+<input id="a2">
+<button onclick="inv('a2')">استثمار</button>
 </div>
 
 <script>
-let user = localStorage.getItem("currentUser");
-let users = JSON.parse(localStorage.getItem("users"));
+let user=localStorage.getItem("currentUser");
+let users=JSON.parse(localStorage.getItem("users"));
 
 function inv(id){
 let a=Number(document.getElementById(id).value);
+if(a>users[user].balance)return alert("رصيد");
 
-if(a > users[user].balance){
-  alert("لا يوجد رصيد");
-  return;
-}
-
-users[user].balance -= a;
-users[user].transactions.push("استثمار - "+a);
+users[user].balance-=a;
+users[user].transactions.push("استثمار "+a);
 
 localStorage.setItem("users",JSON.stringify(users));
-
-window.location.href="dashboard.html";
+location="dashboard.html";
 }
 </script>
 
