@@ -1,74 +1,42 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>السحب - جنرال</title>
+<meta charset="UTF-8">
+<title>السحب</title>
 
-  <style>
-    body {
-      font-family: Arial;
-      direction: rtl;
-      background: #f4f6f8;
-      text-align: center;
-    }
-
-    .box {
-      background: white;
-      width: 300px;
-      margin: 80px auto;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #ccc;
-    }
-
-    input {
-      width: 90%;
-      padding: 10px;
-      margin: 10px 0;
-    }
-
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #0d47a1;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-  </style>
+<style>
+body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
+.box{background:white;width:300px;margin:80px auto;padding:20px;border-radius:10px;}
+input{width:90%;padding:10px;margin:10px 0;}
+button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
+</style>
 </head>
 
 <body>
 
 <div class="box">
-  <h2>السحب</h2>
+<h2>السحب</h2>
 
-  <input id="amount" type="number" placeholder="أدخل المبلغ">
+<input id="amount" type="number">
 
-  <button onclick="withdraw()">سحب</button>
-
-  <br><br>
-  <a href="dashboard.html">رجوع</a>
+<button onclick="wd()">سحب</button>
 </div>
 
 <script>
-function withdraw() {
-  let amount = Number(document.getElementById("amount").value);
+function wd(){
+let a=Number(document.getElementById("amount").value);
+let b=Number(localStorage.getItem("balance"))||0;
 
-  let balance = Number(localStorage.getItem("balance"));
+if(a>b){alert("رصيد غير كافي");return;}
 
-  if(amount > balance) {
-    alert("الرصيد غير كافي");
-    return;
-  }
+b-=a;
+localStorage.setItem("balance",b);
 
-  balance -= amount;
+let t=JSON.parse(localStorage.getItem("transactions"))||[];
+t.push("سحب - "+a);
+localStorage.setItem("transactions",JSON.stringify(t));
 
-  localStorage.setItem("balance", balance);
-
-  alert("تم إرسال طلب السحب");
-
-  window.location.href = "dashboard.html";
+window.location.href="dashboard.html";
 }
 </script>
 
