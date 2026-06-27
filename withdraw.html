@@ -41,18 +41,36 @@
 <body>
 
 <div class="box">
-  <h2>صفحة السحب</h2>
+  <h2>السحب</h2>
 
-  <input type="number" placeholder="أدخل المبلغ">
-  <input type="text" placeholder="عنوان المحفظة">
+  <input id="amount" type="number" placeholder="أدخل المبلغ">
 
-  <button onclick="alert('تم إرسال طلب السحب وسيتم مراجعته من الإدارة')">
-    طلب سحب
-  </button>
+  <button onclick="withdraw()">سحب</button>
 
   <br><br>
-  <a href="dashboard.html">العودة للوحة المستثمر</a>
+  <a href="dashboard.html">رجوع</a>
 </div>
+
+<script>
+function withdraw() {
+  let amount = Number(document.getElementById("amount").value);
+
+  let balance = Number(localStorage.getItem("balance"));
+
+  if(amount > balance) {
+    alert("الرصيد غير كافي");
+    return;
+  }
+
+  balance -= amount;
+
+  localStorage.setItem("balance", balance);
+
+  alert("تم إرسال طلب السحب");
+
+  window.location.href = "dashboard.html";
+}
+</script>
 
 </body>
 </html>
