@@ -56,16 +56,6 @@
       text-decoration: none;
       border-radius: 5px;
     }
-
-    button {
-      padding: 10px;
-      margin: 10px;
-      border: none;
-      background: #0d47a1;
-      color: white;
-      cursor: pointer;
-      border-radius: 5px;
-    }
   </style>
 </head>
 
@@ -73,15 +63,26 @@
 
 <script>
   let loggedIn = localStorage.getItem("loggedIn");
-
   if (!loggedIn) {
     window.location.href = "login.html";
+  }
+
+  let balance = localStorage.getItem("balance");
+  if (balance === null) {
+    balance = 0;
+    localStorage.setItem("balance", balance);
   }
 
   function logout() {
     localStorage.removeItem("loggedIn");
     window.location.href = "login.html";
   }
+
+  function updateUI() {
+    document.getElementById("balance").innerText = balance + " $";
+  }
+
+  window.onload = updateUI;
 </script>
 
 <header>
@@ -101,17 +102,7 @@
 
   <div class="card">
     <h3>الرصيد</h3>
-    <p>0 $</p>
-  </div>
-
-  <div class="card">
-    <h3>الأرباح</h3>
-    <p>0 $</p>
-  </div>
-
-  <div class="card">
-    <h3>الاستثمارات</h3>
-    <p>0</p>
+    <p id="balance">0 $</p>
   </div>
 
   <h2>الإجراءات</h2>
