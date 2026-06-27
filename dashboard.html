@@ -65,6 +65,20 @@
 
 <body>
 
+<script>
+  // 🔒 حماية الدخول
+  let loggedIn = localStorage.getItem("loggedIn");
+
+  if (!loggedIn) {
+    window.location.href = "login.html";
+  }
+
+  function logout() {
+    localStorage.removeItem("loggedIn");
+    window.location.href = "login.html";
+  }
+</script>
+
 <header>
   <h1>مرحبًا بك في لوحة المستثمر</h1>
   <p>شركة جنرال للاستثمار العقاري</p>
@@ -72,7 +86,7 @@
 
 <nav>
   <a href="index.html">الرئيسية</a>
-  <a href="login.html">تسجيل خروج</a>
+  <a href="#" onclick="logout()">تسجيل خروج</a>
 </nav>
 
 <div class="container">
@@ -102,4 +116,4 @@
 </div>
 
 </body>
-    </html>
+</html>
