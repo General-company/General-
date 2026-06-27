@@ -3,83 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <title>لوحة المستثمر</title>
-
 <style>
-body{margin:0;font-family:Arial;direction:rtl;background:#f4f6f8;}
-header{background:#0d47a1;color:white;padding:20px;text-align:center;}
-nav{background:#1565c0;padding:10px;text-align:center;}
-nav a{color:white;margin:10px;text-decoration:none;font-weight:bold;}
-.container{text-align:center;padding:20px;}
-.card{background:white;display:inline-block;width:200px;margin:10px;padding:15px;border-radius:10px;}
-.box{background:white;margin:20px auto;width:90%;max-width:500px;padding:15px;border-radius:10px;text-align:right;}
-.tx{border-bottom:1px solid #eee;padding:5px;}
-.actions a{display:inline-block;margin:10px;padding:10px 15px;background:#1e88e5;color:white;text-decoration:none;}
+body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;margin:0}
+header{background:#0d47a1;color:#fff;padding:20px}
+.card{background:#fff;width:200px;display:inline-block;margin:10px;padding:15px}
+a{display:inline-block;margin:10px;padding:10px;background:#1e88e5;color:#fff;text-decoration:none}
 </style>
 </head>
 
 <body>
 
 <script>
-let user = localStorage.getItem("currentUser");
-if(!user){window.location.href="login.html";}
+let user=localStorage.getItem("currentUser");
+if(!user)location="login.html";
 
-let users = JSON.parse(localStorage.getItem("users"));
-
-function getUser(){
-  return users[user];
-}
-
-function save(){
-  localStorage.setItem("users",JSON.stringify(users));
-}
-
-function logout(){
-  localStorage.removeItem("currentUser");
-  window.location.href="login.html";
-}
-
-function render(){
-  document.getElementById("bal").innerText = getUser().balance + " $";
-
-  let box=document.getElementById("tx");
-  box.innerHTML="";
-
-  let t=getUser().transactions;
-  t.slice().reverse().forEach(x=>{
-    box.innerHTML += `<div class="tx">${x}</div>`;
-  });
-}
-
-window.onload=render;
+let users=JSON.parse(localStorage.getItem("users"));
+function u(){return users[user];}
+function save(){localStorage.setItem("users",JSON.stringify(users));}
 </script>
 
 <header>
-<h1>لوحة المستثمر</h1>
+<h2>لوحة المستثمر</h2>
 </header>
-
-<nav>
-<a href="index.html">الرئيسية</a>
-<a href="projects.html">المشاريع</a>
-<a href="#" onclick="logout()">خروج</a>
-</nav>
-
-<div class="container">
 
 <div class="card">
 <h3>الرصيد</h3>
-<p id="bal">0 $</p>
+<p id="b"></p>
 </div>
 
-<h3>سجل العمليات</h3>
-<div class="box" id="tx"></div>
+<br>
 
-<div class="actions">
 <a href="deposit.html">إيداع</a>
 <a href="withdraw.html">سحب</a>
-<a href="projects.html">مشاريع</a>
-</div>
+<a href="projects.html">استثمار</a>
+<a href="#" onclick="logout()">خروج</a>
 
-</div>
+<script>
+function logout(){
+localStorage.removeItem("currentUser");
+location="login.html";
+}
+
+function render(){
+document.getElementById("b").innerText=u().balance+" $";
+}
+render();
+</script>
 
 </body>
 </html>
