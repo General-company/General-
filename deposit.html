@@ -2,85 +2,52 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>الإيداع</title>
-
+<title>إيداع</title>
 <style>
-body{font-family:Arial;direction:rtl;background:#f4f6f8;text-align:center;}
-.box{background:white;width:340px;margin:60px auto;padding:20px;border-radius:10px;}
-input,select{width:90%;padding:10px;margin:10px 0;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;cursor:pointer;}
-.wallet{
-  background:#f1f1f1;
-  padding:10px;
-  margin:10px 0;
-  font-size:13px;
-  word-break:break-all;
-}
+body{text-align:center;font-family:Arial;background:#f4f6f8}
+.box{background:#fff;width:320px;margin:60px auto;padding:20px}
+input,select{width:90%;padding:10px;margin:5px}
+button{width:100%;padding:10px;background:#0d47a1;color:#fff}
+.wallet{background:#eee;padding:10px;margin:10px;font-size:12px;word-break:break-all}
 </style>
 </head>
-
 <body>
 
 <div class="box">
-<h2>الإيداع</h2>
+<h3>الإيداع</h3>
 
-<p>اختر الشبكة:</p>
-
-<select id="network" onchange="showWallet()">
-  <option value="">اختر</option>
-  <option value="trx">TRC20 - TRON (USDT)</option>
-  <option value="bsc">BEP20 - BSC (USDT)</option>
+<select id="net" onchange="show()">
+<option value="">اختر الشبكة</option>
+<option value="trx">TRC20</option>
+<option value="bsc">BEP20</option>
 </select>
 
-<div id="walletBox" class="wallet">
-اختر شبكة لعرض المحفظة
-</div>
+<div class="wallet" id="w">اختر شبكة</div>
 
-<input id="amount" type="number" placeholder="المبلغ">
+<input id="a" type="number">
 
-<button onclick="deposit()">تأكيد الإيداع</button>
-
-<br><br>
-<a href="dashboard.html">رجوع</a>
+<button onclick="dep()">تسجيل الإيداع</button>
 </div>
 
 <script>
-let user = localStorage.getItem("currentUser");
-let users = JSON.parse(localStorage.getItem("users"));
+let user=localStorage.getItem("currentUser");
+let users=JSON.parse(localStorage.getItem("users"));
 
-// محافظك
-const wallets = {
-  trx: "TXsH5pzQFbP3RkW68jUuFahqa846z58x8o",
-  bsc: "0x0c6106c0fdec995a16c50f61ee2ca92550001b57"
+const w={
+trx:"TXsH5pzQFbP3RkW68jUuFahqa846z58x8o",
+bsc:"0x0c6106c0fdec995a16c50f61ee2ca92550001b57"
 };
 
-function showWallet(){
-  let net = document.getElementById("network").value;
-  document.getElementById("walletBox").innerText = wallets[net] || "اختر شبكة";
+function show(){
+let n=document.getElementById("net").value;
+document.getElementById("w").innerText=w[n]||"";
 }
 
-function deposit(){
-  let a = Number(document.getElementById("amount").value);
-  let net = document.getElementById("network").value;
-
-  if(!net){
-    alert("اختر الشبكة");
-    return;
-  }
-
-  if(a <= 0){
-    alert("أدخل مبلغ صحيح");
-    return;
-  }
-
-  users[user].transactions.push(
-    "طلب إيداع " + a + " USDT (" + net + ")"
-  );
-
-  localStorage.setItem("users",JSON.stringify(users));
-
-  alert("تم تسجيل طلب الإيداع");
-  window.location.href="dashboard.html";
+function dep(){
+let a=Number(document.getElementById("a").value);
+users[user].transactions.push("إيداع "+a);
+localStorage.setItem("users",JSON.stringify(users));
+location="dashboard.html";
 }
 </script>
 
