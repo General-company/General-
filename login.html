@@ -16,39 +16,91 @@ body{
 }
 .box{
   background:white;
-  padding:30px;
+  padding:25px;
   width:300px;
   text-align:center;
   border-radius:10px;
 }
-input{width:90%;padding:10px;margin:10px 0;}
-button{width:100%;padding:10px;background:#0d47a1;color:white;border:none;}
+input{
+  width:90%;
+  padding:10px;
+  margin:8px 0;
+}
+button{
+  width:100%;
+  padding:10px;
+  margin-top:5px;
+  background:#0d47a1;
+  color:white;
+  border:none;
+}
+small{cursor:pointer;color:blue;}
 </style>
 </head>
 
 <body>
 
 <div class="box">
-<h2>تسجيل الدخول</h2>
+<h2>تسجيل / دخول</h2>
 
 <input id="user" placeholder="اسم المستخدم">
 <input id="pass" type="password" placeholder="كلمة المرور">
 
+<button onclick="register()">تسجيل حساب</button>
 <button onclick="login()">دخول</button>
+
+<br><br>
+<small onclick="showUsers()">عرض الحسابات (للتجربة)</small>
 </div>
 
 <script>
+
+// تسجيل حساب جديد
+function register(){
+  let u=document.getElementById("user").value;
+  let p=document.getElementById("pass").value;
+
+  if(!u||!p){alert("املأ البيانات");return;}
+
+  let users=JSON.parse(localStorage.getItem("users")||"{}");
+
+  if(users[u]){
+    alert("الحساب موجود");
+    return;
+  }
+
+  users[u]={
+    pass:p,
+    balance:0,
+    transactions:[]
+  };
+
+  localStorage.setItem("users",JSON.stringify(users));
+
+  alert("تم إنشاء الحساب");
+}
+
+// تسجيل دخول
 function login(){
   let u=document.getElementById("user").value;
   let p=document.getElementById("pass").value;
 
-  if(u && p){
-    localStorage.setItem("loggedIn","true");
-    window.location.href="dashboard.html";
-  } else {
-    alert("املأ البيانات");
+  let users=JSON.parse(localStorage.getItem("users")||"{}");
+
+  if(!users[u] || users[u].pass!==p){
+    alert("خطأ في البيانات");
+    return;
   }
+
+  localStorage.setItem("currentUser",u);
+  window.location.href="dashboard.html";
 }
+
+// عرض المستخدمين (للتجربة فقط)
+function showUsers(){
+  alert(localStorage.getItem("users"));
+}
+
 </script>
 
 </body>
